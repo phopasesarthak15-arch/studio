@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -30,7 +29,7 @@ declare global {
     }
 }
 
-export default function VerifyOtpPage() {
+export default function VerifyOtpClient() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const auth = useAuth();
@@ -82,7 +81,9 @@ export default function VerifyOtpPage() {
             const userDocRef = doc(firestore, "users", user.uid);
             const userDoc = await getDoc(userDocRef);
 
-            const isSuperAdmin = user.phoneNumber === "+918459740545";
+            /* ✅ FIX: Phone number moved to environment variable — never hardcode in source */
+            const isSuperAdmin =
+                user.phoneNumber === process.env.NEXT_PUBLIC_SUPER_ADMIN_PHONE;
 
             if (userDoc.exists()) {
                 if (isSuperAdmin) {
