@@ -1,0 +1,154 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user of the Agri Saadhan application, containing core profile information and roles.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user (Auth UID)."
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the user."
+        },
+        "contactPhoneNumber": {
+          "type": "string",
+          "description": "The mobile phone number of the user."
+        },
+        "villageTehsil": {
+          "type": "string",
+          "description": "The village and tehsil where the user resides."
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "The user's preferred language (e.g., 'en', 'hi')."
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["FARMER", "EQUIPMENT_OWNER", "DRIVER", "SAHAYAK", "ADMIN"]
+          }
+        },
+        "sahayakStatus": {
+          "type": "string",
+          "enum": ["NONE", "PENDING", "VERIFIED"]
+        },
+        "driverStatus": {
+          "type": "string",
+          "enum": ["NONE", "PENDING", "VERIFIED", "REJECTED"]
+        },
+        "farmSize": {
+          "type": "number"
+        },
+        "farmSizeUnit": {
+          "type": "string",
+          "enum": ["acre", "guntha", "hectare"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "contactPhoneNumber",
+        "roles",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Equipment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Equipment",
+      "type": "object",
+      "description": "Represents a specific piece of agricultural equipment available for rent or hire.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "village": {
+          "type": "string"
+        },
+        "pricePerHour": {
+          "type": "number"
+        },
+        "pricePerDay": {
+          "type": "number"
+        },
+        "availabilityStatus": {
+          "type": "string",
+          "enum": ["available", "maintenance"]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "ownerId",
+        "village"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous",
+      "phone"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores core user profile information.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/equipment/{equipmentId}",
+        "definition": {
+          "entityName": "Equipment",
+          "schema": {
+            "$ref": "#/backend/entities/Equipment"
+          },
+          "description": "Stores details of individual equipment pieces.",
+          "params": [
+            {
+              "name": "equipmentId",
+              "description": "The unique identifier for the equipment."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "Renamed collection paths to 'users' and 'equipment' to align with the application code and established conventions. Added Admin role to user profiles."
+  }
+}

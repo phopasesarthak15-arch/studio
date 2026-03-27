@@ -1,0 +1,90 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * Agri Saadhan Security Rules
+     *
+     * Updated to match code collection names: 'users' and 'equipment'.
+     */
+
+    // --- Helper Functions ---
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    function isBookingParticipant(data) {
+      return isSignedIn() && (
+        request.auth.uid == data.farmerId || 
+        request.auth.uid == data.driverId || 
+        request.auth.uid == data.sahayakId || 
+        request.auth.uid == data.ownerId
+      );
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for User Profiles. Renamed to 'users' to match code.
+     * Allows all signed-in users to list profiles (needed for Sahayak/Admin features).
+     */
+    match /users/{userId} {
+      allow get, list: if isSignedIn();
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+      
+      // Notifications subcollection
+      match /notifications/{notificationId} {
+        allow get, list, update, delete: if isOwner(userId);
+        allow create: if isSignedIn(); // Allow other components to send notifications
+      }
+    }
+
+    /**
+     * @description Rules for Equipment. Renamed to 'equipment' to match code.
+     */
+    match /equipment/{equipmentId} {
+      allow get, list: if true;
+      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
+      allow update: if resource != null && resource.data.ownerId == request.auth.uid && request.resource.data.ownerId == resource.data.ownerId;
+      allow delete: if resource != null && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /bookings/{bookingId} {
+      allow get: if isSignedIn() && isBookingParticipant(resource.data);
+      allow list: if isSignedIn(); 
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && isBookingParticipant(resource.data);
+      allow delete: if isSignedIn() && isBookingParticipant(resource.data);
+    }
+
+    match /driving-jobs/{jobId} {
+      allow read, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn();
+    }
+
+    match /sahayak_profiles/{sahayakId} {
+      allow get, list: if isOwner(sahayakId);
+      allow create: if isOwner(sahayakId);
+      allow update: if isExistingOwner(sahayakId);
+    }
+    
+    match /publicStats/{docId} {
+      allow get: if true;
+      allow write: if isSignedIn();
+    }
+
+  }
+}

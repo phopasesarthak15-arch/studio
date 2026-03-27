@@ -1,0 +1,34 @@
+{
+  "placeholderImages": [
+    {
+      "id": "tractor_1",
+      "description": "Red tractor in a field",
+      "imageUrl": "https://images.unsplash.com/photo-1653380166183-05c43839dfa3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx0cmFjdG9yJTIwZmllbGR8ZW58MHx8fHwxNzcxMzUzMDMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tractor field"
+    },
+    {
+      "id": "rotavator_1",
+      "description": "Rotavator attachment",
+      "imageUrl": "https://picsum.photos/seed/rotavator1/600/400",
+      "imageHint": "rotavator farm"
+    },
+    {
+      "id": "plough_1",
+      "description": "Plough in a field",
+      "imageUrl": "https://images.unsplash.com/photo-1727514606723-54581e9562ad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwbG93JTIwYWdyaWN1bHR1cmV8ZW58MHx8fHwxNzcxMzUzMDMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "plough agriculture"
+    },
+    {
+      "id": "harvester_1",
+      "description": "Combine harvester in a wheat field",
+      "imageUrl": "https://images.unsplash.com/photo-1625335334725-247bab2dd76f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYXJ2ZXN0ZXIlMjB3aGVhdHxlbnwwfHx8fDE3NzEzMjk0MzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "harvester wheat"
+    },
+    {
+      "id": "sprayer_1",
+      "description": "Agricultural sprayer",
+      "imageUrl": "https://images.unsplash.com/photo-1690986375486-460dc48dd499?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzcHJheWVyJTIwZmFybXxlbnwwfHx8fDE3NzEzNTMwMzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sprayer farm"
+    }
+  ]
+}
